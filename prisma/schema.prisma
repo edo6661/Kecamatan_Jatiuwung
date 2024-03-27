@@ -30,6 +30,9 @@ model Good {
   id    String @id @default(uuid())
   name  String
   qty Int
+  imageUrl String
+
+  items Item[]
 }
 
 model Borrow {
@@ -45,10 +48,11 @@ model Borrow {
 
 model Item {
   id    String @id @default(uuid())
-  name  String
   qty Int
+  goodId String
   borrowId String
-  borrow Borrow @relation(fields: [borrowId], references: [id])
+  good Good @relation(fields: [goodId], references: [id])
+  borrow Borrow @relation(fields: [borrowId], references: [id], onDelete: Cascade)
 }
 
 model Return {
@@ -64,7 +68,6 @@ model History {
   id    String @id @default(uuid())
   userId String
   user User @relation(fields: [userId], references: [id])
-  borrowId String
   returnId String
   return Return @relation(fields: [returnId], references: [id])
 

@@ -66,7 +66,6 @@ export async function POST(req: Request) {
   if (eventType === "user.updated") {
     await db.user.update({
       where: {
-        // ! karena di create kita nge store nya itu payload.data.id
         externalUserId: payload.data.id,
       },
       data: {

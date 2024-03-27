@@ -7,6 +7,7 @@ import { ourFileRouter } from "./api/uploadthing/core";
 import "@uploadthing/react/styles.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ClerkProvider } from "@clerk/nextjs";
+import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +35,9 @@ export default function RootLayout({
         />
         <Toaster />
 
-        <ClerkProvider>{children}</ClerkProvider>
+        <ClerkProvider>
+          <Header />
+          {children}</ClerkProvider>
       </body>
     </html>
   );
