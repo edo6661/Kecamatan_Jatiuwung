@@ -6,18 +6,21 @@ import { Item } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 interface Borrow {
+  borrowGoods: {
     goodId: string;
     qty: number;
+  }[]
+  limitDate: Date;
 }
 
-export const addBorrow = async (data: Borrow[]  ) => {  
+export const addBorrow = async (data: Borrow  ) => {  
   try {
     const currentUser = await getCurrentUser()
 
     if(!currentUser) throw new Error("User not found")
     if(!data) throw new Error("Data not found");
 
-    const item = data.map((data) => 
+    const item = data.borrowGoods.map((data) => 
       {
         return {
           goodId: data.goodId,
@@ -31,8 +34,8 @@ export const addBorrow = async (data: Borrow[]  ) => {
         userId: currentUser?.id!,
         item: {
           create: item
-        }
-       
+        },
+       limitDate: data.limitDate
       },
       include:{
         item:true
@@ -60,6 +63,25 @@ export const deleteUserBorrowNotApproved = async () => {
     revalidatePath("/goods")
     revalidatePath("borrowed-items")
     return deletedBorrow
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+}
+
+export const approveBorrowWithId =async (id:string) => {
+  try {
+    const approveBorrow = await db.borrow.update({
+      where:{
+        id,
+      },
+      data:{
+        approved:true
+      }
+      
+    })
+    revalidatePath("/borrowed-items")
+    return approveBorrow
   } catch (err) {
     console.log(err);
     throw(err);

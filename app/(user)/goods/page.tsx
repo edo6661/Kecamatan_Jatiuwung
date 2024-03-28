@@ -36,7 +36,7 @@ export default async function GoodsPage({ searchParams }: GoodsPageProps) {
 
   return (
     <>
-      <section className="container  ">
+      <section className="base-container  ">
         <GoodsCard goods={goods} isUserHasBorrowedItem={userHasBorrowedItem!} />
 
       </section>

@@ -22,7 +22,7 @@ const DeleteBorrowItem = () => {
     })
   }
   return (
-    <Button className="w-full rounded-none rounded-r-xl" disabled={isPending} variant={"destructive"}
+    <Button className="w-full rounded-xl" disabled={isPending} variant={"destructive"}
       onClick={onRemove}
     >
       {

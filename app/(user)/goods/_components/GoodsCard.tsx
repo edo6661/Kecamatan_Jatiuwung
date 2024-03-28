@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Borrow, Good, User } from '@prisma/client'
 import { addBorrow, deleteUserBorrowNotApproved } from '@/actions/borrow'
 import { toast } from 'sonner'
+import DialogBorrow from '@/components/custom-ui/DialogBorrow'
 
 interface GoodsCardProps {
   goods: Good[]
@@ -15,44 +16,13 @@ interface GoodsCardProps {
 }
 
 const GoodsCard = ({ goods, isUserHasBorrowedItem }: GoodsCardProps) => {
-  const [isPending, startTransition] = useTransition()
   const [borrowGoods, setBorrowGoods] = useState<any[]>([])
   const [submitted, setSubmitted] = useState(false)
 
 
-  const onSubmit = () => {
-    startTransition(() => {
-      if (isUserHasBorrowedItem) {
-        toast.error("Anda masih memiliki barang yang belum dikembalikan")
-        return
-      }
-      addBorrow(borrowGoods)
-        .then(() => {
-          toast.success("Barang berhasil dipinjam")
-          setBorrowGoods([])
-          setSubmitted(true)
-        })
-        .catch((err) => {
-          toast.error("Barang gagal dipinjam", err.message)
-          console.error(err)
-          throw err
-        })
-    })
-  }
-  const onRemove = () => {
-    startTransition(() => {
-      deleteUserBorrowNotApproved()
-        .then(() => {
-          toast.success("Barang berhasil dihapus")
-          setBorrowGoods([])
-          setSubmitted(true)
-        })
-        .catch((err) => {
-          toast.error("Barang gagal dihapus", err.message)
-          console.error(err)
-          throw err
-        })
-    })
+  const onSubmitted = () => {
+    setBorrowGoods([])
+    setSubmitted(true)
   }
 
 
@@ -77,16 +47,11 @@ const GoodsCard = ({ goods, isUserHasBorrowedItem }: GoodsCardProps) => {
         {
           borrowGoods.length > 0 && (
             <div className="grid grid-cols-2">
-              <Button className="w-full rounded-none rounded-l-xl" disabled={isPending} onClick={onSubmit} >
-                {isPending ? "Memproses" : "Pinjam"}
-              </Button>
-              <Button className="w-full rounded-none rounded-r-xl" disabled={isPending} variant={"destructive"}
-                onClick={onRemove}
-              >
-                {
-                  isPending ? "Membatalkan" : "Batalkan"
-                }
-              </Button>
+              <DialogBorrow
+                borrowGoods={borrowGoods}
+                onSubmitted={onSubmitted}
+                isUserHasBorrowedItem={isUserHasBorrowedItem}
+              />
             </div>
           )
         }

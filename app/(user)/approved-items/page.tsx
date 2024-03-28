@@ -1,6 +1,6 @@
 import DeleteBorrowItem from '@/components/DeleteBorrowItem'
 import { Heading } from '@/components/custom-ui/heading'
-import { getUserBorrowedItem } from '@/services/borrow'
+import { getUserApprovedItem, getUserBorrowedItem } from '@/services/borrow'
 import { format } from 'date-fns'
 import Image from 'next/image'
 
@@ -9,8 +9,8 @@ import { id } from 'date-fns/locale';
 import { distanceToNow } from '@/utils/formateDate'
 import { Badge } from '@/components/ui/badge'
 
-const BorrowedItems = async () => {
-  const borrow = await getUserBorrowedItem()
+const ApprovedItems = async () => {
+  const borrow = await getUserApprovedItem()
 
   return (
     <div className='base-container'>
@@ -19,8 +19,9 @@ const BorrowedItems = async () => {
           <div className="grid grid-cols-2 justify-between">
             <div >
               <Heading>
-                Borrowed Items
+                Approved Items
               </Heading>
+
             </div>
 
             <DeleteBorrowItem />
@@ -65,4 +66,4 @@ const BorrowedItems = async () => {
   )
 }
 
-export default BorrowedItems
+export default ApprovedItems
