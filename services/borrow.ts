@@ -45,10 +45,7 @@ export const getUserBorrowedItem = async () => {
 export const getAllBorrowed = async () => {
   try {
     return await db.borrow.findMany({
-      where:{
-        approved:false,
-        isReturned:false
-      },
+      
       include:{
         item: {
           include:{
@@ -115,6 +112,30 @@ export const getUserApprovedItem = async () => {
     const currentUser = await getCurrentUser()
     // TODO GANTI JADI FIND MANY
     return await db.borrow.findFirst({
+      where:{
+        userId: currentUser?.id,
+        approved:true,
+        isReturned:false
+      },
+      include:{
+        item: {
+          include:{
+            good:true
+          }
+        }
+        
+      }
+    })
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+}
+export const getUserApprovedItems = async () => {
+  try {
+    const currentUser = await getCurrentUser()
+    // TODO GANTI JADI FIND MANY
+    return await db.borrow.findMany({
       where:{
         userId: currentUser?.id,
         approved:true,

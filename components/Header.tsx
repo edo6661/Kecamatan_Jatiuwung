@@ -6,6 +6,14 @@ import { Heading } from "./custom-ui/heading";
 const Header = async () => {
   const currentUser = await getCurrentUser()
 
+  const adminMenus = [
+    { href: "/add-good", text: "Add-goods" },
+    { href: "/approve-borrow", text: "Approve Borrow" },
+    { href: "/approved-borrow", text: "Approved Borrow" },
+    { href: "/returned-borrow", text: "Returned Borrow" }
+  ];
+  
+
   return (
     <div className='container fl-ic justify-between '>
       {currentUser && (
@@ -14,6 +22,7 @@ const Header = async () => {
           <div className="fl-ic gap-4">
             <Link href="/">Home</Link>
             <Link href="/goods">Goods</Link>
+            <Link href="/items">items</Link>
             <Link href="/borrowed-items">Borrowed Items</Link>
             <Link href="/approved-items">Approved Items</Link>
           </div>
@@ -23,10 +32,9 @@ const Header = async () => {
         {/* BAKAL DIJADIIN 1 PAGE DAN FILTERED */}
         {currentUser?.role === "ADMIN" && (
           <>
-            <Link href="/add-good">Add-goods</Link>
-            <Link href="/approve-borrow">Approve Borrow</Link>
-            <Link href="/approved-borrow">Approved Borrow</Link>
-            <Link href="/returned-borrow">Returned Borrow</Link>
+            {adminMenus.map((menu) => 
+              <Link key={menu.href} href={menu.href}>{menu.text}</Link>
+            )}
           </>
         )}
 
