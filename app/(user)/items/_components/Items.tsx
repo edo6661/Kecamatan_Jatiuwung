@@ -1,77 +1,81 @@
-import { Heading } from "@/components/custom-ui/heading"
-
-import { Payment } from "@/types"
-import { getAllBorrowed, getUserApprovedItems } from "@/services/borrow"
-import { Item } from "@prisma/client"
+"use client"
+import { Heading } from '@/components/custom-ui/heading'
+import React, { useState } from 'react'
+import Item from './Item'
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import Image from "next/image"
-import { Badge } from "@/components/ui/badge"
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { BorrowsRelation } from '@/types/borrow'
+import { User } from '@prisma/client'
 
+interface ItemsProps {
+  allBorrows: BorrowsRelation[];
+  approvedBorrows: BorrowsRelation[];
+  notApprovedBorrows: BorrowsRelation[];
+  returnedBorrows: BorrowsRelation[];
+  notReturnedBorrows: BorrowsRelation[];
+  userAllBorrows: BorrowsRelation[];
+  userApprovedBorrows: BorrowsRelation[];
+  userNotApprovedBorrows: BorrowsRelation[];
+  userReturnedBorrows: BorrowsRelation[];
+  userNotReturnedBorrows: BorrowsRelation[];
 
-const Items = async () => {
-  const borrows = await getAllBorrowed()
+  currentUser: User
+}
+
+const Items = ({ allBorrows,
+  approvedBorrows,
+  notApprovedBorrows,
+  returnedBorrows,
+  notReturnedBorrows,
+  userAllBorrows,
+  userApprovedBorrows,
+  userNotApprovedBorrows,
+  userReturnedBorrows,
+  userNotReturnedBorrows,
+  currentUser
+
+}: ItemsProps) => {
+  const [borrow, setBorrow] = useState("")
+  const selectBorrow = ["All", "Approved", "Not Approved", "Returned", "Not Returned"]
+  let borrows: BorrowsRelation[] = currentUser.role === "ADMIN" ? borrow === "All" ? allBorrows : borrow === "Approved" ? approvedBorrows : borrow === "Not Approved" ? notApprovedBorrows : borrow === "Returned" ? returnedBorrows : borrow === "Not Returned" ? notReturnedBorrows : allBorrows : borrow === "All" ? userAllBorrows : borrow === "Approved" ? userApprovedBorrows : borrow === "Not Approved" ? userNotApprovedBorrows : borrow === "Returned" ? userReturnedBorrows : borrow === "Not Returned" ? userNotReturnedBorrows : userAllBorrows
 
   return (
     <section className="base-container">
-      <Heading>
-        Items Page
-      </Heading>
-      <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead >Name</TableHead>
-            <TableHead>Image</TableHead>
-            <TableHead>Quantity</TableHead>
-            <TableHead>Approved</TableHead>
-            <TableHead>Returned</TableHead>
-
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {borrows.map((borrow) =>
-            borrow.item.map((item) =>
-              <TableRow key={item.id}>
-                <TableCell>{item.good.name}</TableCell>
-                <TableCell>
-                  <Image
-                    src={item.good.imageUrl}
-                    alt={item.good.name}
-                    width={90}
-                    height={90}
-                    className=" aspect-square rounded-full"
-                  />
-                </TableCell>
-                <TableCell>{item.qty}</TableCell>
-                <TableCell>
-                  <Badge variant={
-                    borrow.approved ? 'default' : 'destructive'
-                  }>
-                    {borrow.approved ? 'Approved' : 'Not Approved'}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge variant={
-                    borrow.isReturned ? 'default' : 'destructive'
-                  }>
-                    {borrow.isReturned ? 'Approved' : 'Not Approved'}
-                  </Badge>
-                </TableCell>
-              </TableRow>
-            )
-          )}
-        </TableBody>
-      </Table>
+      <div className="fl-ic justify-between">
+        <Heading>
+          Items Page
+        </Heading>
+        <Select
+          onValueChange={(value) => setBorrow(value)}
+          value={borrow}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Filter Borrow" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Filter</SelectLabel>
+              {selectBorrow.map((item) =>
+                <SelectItem key={item} value={item}>
+                  {item}
+                </SelectItem>
+              )}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+      <Item borrows={borrows}
+        currentUser={currentUser}
+      />
     </section>
   )
 }
 
-export default Items  
+export default Items

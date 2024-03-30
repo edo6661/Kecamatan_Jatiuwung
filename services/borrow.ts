@@ -7,7 +7,6 @@ export const isUserHasBorrowedItem = async () => {
     return !!await db.borrow.findFirst({
       where:{
         userId: currentUser?.id,
-        approved:false,
         isReturned:false
       }
     })
@@ -106,14 +105,33 @@ export const getAllBorrowedReturned = async () => {
     throw(err);
   }
 }
-
-export const getUserApprovedItem = async () => {
+export const getAllBorrowedNotApproved = async () => {
   try {
-    const currentUser = await getCurrentUser()
-    // TODO GANTI JADI FIND MANY
-    return await db.borrow.findFirst({
+    return await db.borrow.findMany({
       where:{
-        userId: currentUser?.id,
+        approved:false,
+        isReturned:false
+      },
+      include:{
+        item: {
+          include:{
+            good:true
+          }
+        },
+        user:true
+        
+      }
+    })
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+
+}
+export const getAllBorrowedNotReturned = async () => {
+  try {
+    return await db.borrow.findMany({
+      where:{
         approved:true,
         isReturned:false
       },
@@ -122,7 +140,32 @@ export const getUserApprovedItem = async () => {
           include:{
             good:true
           }
-        }
+        },
+        user:true
+        
+      }
+    })
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+
+
+}
+export const getAllBorrowedUser = async () => {
+  try {
+    const currentUser = await getCurrentUser()
+    return await db.borrow.findMany({
+      where:{
+        userId: currentUser?.id
+      },
+      include:{
+        item: {
+          include:{
+            good:true
+          }
+        },
+        user:true
         
       }
     })
@@ -131,14 +174,81 @@ export const getUserApprovedItem = async () => {
     throw(err);
   }
 }
-export const getUserApprovedItems = async () => {
+export const getAllBorrowedUserApproved = async () => {
   try {
     const currentUser = await getCurrentUser()
-    // TODO GANTI JADI FIND MANY
     return await db.borrow.findMany({
       where:{
         userId: currentUser?.id,
-        approved:true,
+        approved:true
+      },
+      include:{
+        item: {
+          include:{
+            good:true
+          }
+        },
+        user:true
+        
+      }
+    })
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+}
+export const getAllBorrowedUserNotApproved = async () => {
+  try {
+    const currentUser = await getCurrentUser()
+    return await db.borrow.findMany({
+      where:{
+        userId: currentUser?.id,
+        approved:false
+      },
+      include:{
+        item: {
+          include:{
+            good:true
+          }
+        },
+        user:true
+        
+      }
+    })
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+}
+export const getAllBorrowedUserReturned = async () => {
+  try {
+    const currentUser = await getCurrentUser()
+    return await db.borrow.findMany({
+      where:{
+        userId: currentUser?.id,
+        isReturned:true
+      },
+      include:{
+        item: {
+          include:{
+            good:true
+          }
+        },
+        user:true
+        
+      }
+    })
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+}
+export const getAllBorrowedUserNotReturned = async () => {
+  try {
+    const currentUser = await getCurrentUser()
+    return await db.borrow.findMany({
+      where:{
+        userId: currentUser?.id,
         isReturned:false
       },
       include:{
@@ -146,7 +256,8 @@ export const getUserApprovedItems = async () => {
           include:{
             good:true
           }
-        }
+        },
+        user:true
         
       }
     })

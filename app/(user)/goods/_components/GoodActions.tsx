@@ -21,20 +21,21 @@ import FormInput from "@/components/custom-ui/FormInput"
 import FormCheckbox from "@/components/custom-ui/FormCheckbox"
 import { useEffect } from "react"
 import { GoodBorrow } from "@/types/good"
+import { Good } from "@prisma/client"
 
 const FormSchema = z.object({
   selected: z.boolean().default(false),
   qty: z.string()
 })
 
-interface GoodActionsProps {
+interface GoodActionsProps extends Good {
   setBorrowGoods: React.Dispatch<React.SetStateAction<GoodBorrow[]>>
-  goodId: string
+
   submitted: boolean
   setSubmitted: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function GoodActions({ setBorrowGoods, goodId, submitted, setSubmitted }: GoodActionsProps) {
+export default function GoodActions({ setBorrowGoods, id, qty, submitted, setSubmitted }: GoodActionsProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -43,13 +44,13 @@ export default function GoodActions({ setBorrowGoods, goodId, submitted, setSubm
     },
   })
 
-  const deleteSameGoodId = () => setBorrowGoods((prev) => prev.filter((item) => item.goodId !== goodId))
+  const deleteSameGoodId = () => setBorrowGoods((prev) => prev.filter((item) => item.goodId !== id))
 
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const sendedData = {
       qty: +data.qty,
-      goodId
+      goodId: id,
     }
     deleteSameGoodId()
     setBorrowGoods((prev) => [...prev, sendedData])
@@ -70,6 +71,12 @@ export default function GoodActions({ setBorrowGoods, goodId, submitted, setSubm
 
   }, [form.watch("selected"), form.watch("qty"), submitted])
 
+  useEffect(() => {
+    if (+form.watch("qty") > qty) {
+      toast.error("Quantity must be less than or equal to the available quantity")
+    }
+  }, [form.watch("qty")])
+
 
   return (
     <Form {...form}>
@@ -84,6 +91,7 @@ export default function GoodActions({ setBorrowGoods, goodId, submitted, setSubm
             name="qty"
             placeholder="Enter quantity"
             type="number"
+            max={qty}
           />
         </div>
       </form>

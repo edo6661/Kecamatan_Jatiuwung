@@ -16,6 +16,7 @@ interface FormInputProps {
   placeholder: string;
   description?: string;
   type?: string;
+  max?: number;
 }
 
 const FormInput = ({
@@ -24,7 +25,7 @@ const FormInput = ({
   name,
   placeholder,
   description,
-  type
+  type, max
 }: FormInputProps) => {
   return (
     <FormField
@@ -35,7 +36,7 @@ const FormInput = ({
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <Input placeholder={placeholder} {...field} type={type}
-              {...(type === "number" && { min: 1 })}
+              {...(type === "number" && { min: 1, max })}
 
             />
           </FormControl>

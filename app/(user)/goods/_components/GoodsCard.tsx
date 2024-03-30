@@ -34,14 +34,18 @@ const GoodsCard = ({ goods, isUserHasBorrowedItem }: GoodsCardProps) => {
           <SearchGoods placeholder="Search Goods" />
         </div>
         <div className="grid grid-cols-3 justify-around">
-          {goods.map((good) =>
-            <div key={good.id} className="space-y-2">
-              <Heading as="h4" size="sm">{good.name}</Heading>
-              <Image src={good.imageUrl} width={300} height={300} alt={good.name} className=" aspect-square" />
-              <GoodActions setBorrowGoods={setBorrowGoods} goodId={good.id} submitted={submitted}
-                setSubmitted={setSubmitted}
-              />
-            </div>
+          {goods.map((good) => {
+            return good.qty > 0 && (
+              <div key={good.id} className="space-y-2">
+                <Heading as="h4" size="sm">{good.name}</Heading>
+                <Image src={good.imageUrl} width={300} height={300} alt={good.name} className=" aspect-square" />
+                <GoodActions setBorrowGoods={setBorrowGoods} {...good} submitted={submitted}
+                  setSubmitted={setSubmitted}
+                />
+              </div>
+            )
+          }
+
           )}
         </div>
         {

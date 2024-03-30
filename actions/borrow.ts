@@ -28,6 +28,19 @@ export const addBorrow = async (data: Borrow  ) => {
         }
       }
     )
+
+    const changeQtyGood = item.map(async(item) => 
+      await db.good.update({
+        where:{
+          id: item.goodId
+        },
+        data:{
+          qty:{
+            decrement:item.qty
+          }
+        }
+      })
+    )
    
     const newBorrow= await db.borrow.create({
       data:{
@@ -82,6 +95,63 @@ export const approveBorrowWithId =async (id:string) => {
     })
     revalidatePath("/borrowed-items")
     return approveBorrow
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+}
+
+export const toggleApproveBorrowWithId =async (id:string) => {
+  try {
+    const borrow = await db.borrow.findUnique({
+      where:{
+        id,
+      }
+    })
+    if(!borrow) throw new Error("Borrow not found")
+    const approveBorrow = await db.borrow.update({
+      where:{
+        id,
+      },
+      data:{
+        approved:!borrow.approved
+      }
+      
+    })
+    revalidatePath("/items")
+    return approveBorrow
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+}
+export const deleteBorrowWithId =async (id:string) => {
+  try {
+    const deletedBorrow = await db.borrow.delete({
+      where:{
+        id,
+      }
+    })
+    revalidatePath("/items")
+    return deletedBorrow
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+}
+export const addReasonToBorrow =async (id:string,reason:string) => {
+  try {
+    const updatedBorrow = await db.borrow.update({
+      where:{
+        id,
+      },
+      data:{
+        reason
+      }
+    })
+    revalidatePath("/items")
+    revalidatePath("/")
+    return updatedBorrow
   } catch (err) {
     console.log(err);
     throw(err);
