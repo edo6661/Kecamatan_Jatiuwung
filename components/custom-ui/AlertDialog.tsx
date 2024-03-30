@@ -46,7 +46,6 @@ const AlertDialog = (
           <AlertDialogAction className="hover:bg-destructive bg-second transition-all duration-200 mt-2 text-black hover:text-white"
             onClick={action}
             disabled={isPending}
-
           >
             {isPending ? "Deleting..." : "Delete"}
           </AlertDialogAction>

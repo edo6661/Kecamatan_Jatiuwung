@@ -16,9 +16,7 @@ const Header = async () => {
           <Heading>Welcome, {currentUser.username}</Heading>
           <div className="fl-ic gap-4">
             <Link href="/">Home</Link>
-            {currentUser.role === "USER" &&
-              <Link href="/goods">Goods</Link>
-            }
+            <Link href="/goods">Goods</Link>
             <Link href="/items">items</Link>
             {currentUser.role === "ADMIN" &&
               <Link href="/add-good">Add-good</Link>

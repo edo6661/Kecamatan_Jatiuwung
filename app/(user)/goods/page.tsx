@@ -10,6 +10,7 @@ import GoodsCard from "./_components/GoodsCard";
 import { getCurrentUser } from "@/services/user";
 import { notFound } from "next/navigation";
 import { isUserHasBorrowedItem } from "@/services/borrow";
+import GoodsAdmin from "./_components/GoodsAdmin";
 
 
 interface GoodsPageProps {
@@ -37,7 +38,12 @@ export default async function GoodsPage({ searchParams }: GoodsPageProps) {
   return (
     <>
       <section className="base-container  ">
-        <GoodsCard goods={goods} isUserHasBorrowedItem={userHasBorrowedItem!} />
+        {currentUser.role === "USER" ? (
+          <GoodsCard goods={goods} isUserHasBorrowedItem={userHasBorrowedItem!} />
+        ) : <GoodsAdmin
+          currentUser={currentUser}
+          goods={goods}
+        />}
 
       </section>
     </>
