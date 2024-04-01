@@ -12,10 +12,11 @@ interface FormItemActionsProps {
   isPending: boolean;
   handleApprove: () => void;
   handleDelete: () => void;
+  handleReturn: () => void;
 
 }
 const FormItemActions = (
-  { borrow, isPending, handleApprove, handleDelete }: FormItemActionsProps
+  { borrow, isPending, handleApprove, handleDelete, handleReturn }: FormItemActionsProps
 ) => {
   return (
     <>
@@ -36,11 +37,18 @@ const FormItemActions = (
         </Button>
       </TableCell>
       <TableCell>
-        <Badge variant={
-          borrow.isReturned ? 'default' : 'destructive'
-        }>
-          {borrow.isReturned ? 'Returned' : 'Unreturned'}
-        </Badge>
+        <Button variant="outline" className=" border-none w-fit h-fit px-0 py-0"
+          onClick={handleReturn}
+          disabled={isPending}
+        >
+          <Badge variant={
+            borrow.isReturned ? 'default' : 'destructive'
+          }
+            className=" cursor-pointer"
+          >
+            {borrow.isReturned ? 'Returned' : 'Not Returned'}
+          </Badge>
+        </Button>
       </TableCell>
       <TableCell>
         <DialogItemReason

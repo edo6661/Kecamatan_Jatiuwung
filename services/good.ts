@@ -3,7 +3,9 @@ import { revalidatePath, unstable_noStore } from "next/cache";
 
 export const getGoods = async () => {
   try {
-    return await db.good.findMany();
+    return await db.good.findMany({
+      
+    });
   } catch (err) {
     console.error(err);
     throw (err);

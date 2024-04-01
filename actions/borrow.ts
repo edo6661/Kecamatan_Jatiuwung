@@ -125,6 +125,47 @@ export const toggleApproveBorrowWithId =async (id:string) => {
     throw(err);
   }
 }
+export const toggleReturnBorrowWithId =async (id:string, returnedBorrow: {
+  id: string;
+  qty: number;
+}[]) => {
+  try {
+    const borrow = await db.borrow.findUnique({
+      where:{
+        id,
+      }
+    })
+    if(!borrow) throw new Error("Borrow not found")
+    const returnBorrow = await db.borrow.update({
+      where:{
+        id,
+      },
+      data:{
+        isReturned:!borrow.isReturned
+      }
+    })
+
+    const returnQtyGood = returnedBorrow.map(async(item) => 
+      await db.good.update({
+        where:{
+          id:item.id,
+        },
+        data:{
+          qty:{
+            increment:item.qty
+          }
+        }
+      })
+    )
+    
+    revalidatePath("/items")
+    return returnBorrow
+  } catch (err) {
+    console.log(err);
+    throw(err);
+  }
+
+}
 export const deleteBorrowWithId =async (id:string) => {
   try {
     const deletedBorrow = await db.borrow.delete({

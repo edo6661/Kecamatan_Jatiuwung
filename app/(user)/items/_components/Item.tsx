@@ -15,7 +15,7 @@ import { Badge } from "@/components/ui/badge"
 import FormItemApproved from "./FormItemApproved"
 import { Button } from "@/components/ui/button"
 import { useTransition } from "react"
-import { deleteBorrowWithId, toggleApproveBorrowWithId } from "@/actions/borrow"
+import { deleteBorrowWithId, toggleApproveBorrowWithId, toggleReturnBorrowWithId } from "@/actions/borrow"
 import { toast } from "sonner"
 import { X } from "lucide-react"
 import { distanceToNow, formatDate } from "@/utils/formateDate"
@@ -33,7 +33,7 @@ const Item = (
   const [isPending, startTransition] = useTransition()
 
   const tableHeadBase = ["Name", "Image", "Quantity", "Limit",]
-  const tableHeadUser = [...tableHeadBase, "Returned", "Reason"]
+  const tableHeadUser = [...tableHeadBase, "Approved", "Returned", "Reason"]
   const tableHeadAdmin = [...tableHeadBase, "User", "Approved", "Returned", "Reason", "Delete",]
   const tableHeads = currentUser.role === "ADMIN" ? tableHeadAdmin : tableHeadUser
   return borrows.length > 0 ? (
@@ -63,7 +63,26 @@ const Item = (
               startTransition(() => {
                 toggleApproveBorrowWithId(borrow.id)
                   .then(() => {
-                    toast.success("Borrow Changed Successfully")
+                    toast.success("Approve Changed Successfully")
+                  })
+                  .catch((err) => {
+                    toast.error("Error Changing Borrow")
+                  })
+              })
+            }
+            const handleReturn = () => {
+              const returnedBorrow = borrow.item.map((item) => ({
+                id: item.good.id,
+                qty: item.qty
+              }))
+              if (borrow.isReturned) {
+                toast.error("Borrow is Already Returned")
+                return
+              }
+              startTransition(() => {
+                toggleReturnBorrowWithId(borrow.id, returnedBorrow)
+                  .then(() => {
+                    toast.success("Return Changed Successfully")
                   })
                   .catch((err) => {
                     toast.error("Error Changing Borrow")
@@ -99,6 +118,13 @@ const Item = (
                   <>
                     <TableCell>
                       <Badge variant={
+                        borrow.approved ? 'default' : 'destructive'
+                      }>
+                        {borrow.approved ? 'Approved' : 'Dissaproved '}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={
                         borrow.isReturned ? 'default' : 'destructive'
                       }>
                         {borrow.isReturned ? 'Returned' : 'Unreturned '}
@@ -111,7 +137,9 @@ const Item = (
                     </TableCell>
                   </>
                 }
-                {currentUser.role === "ADMIN" && <FormItemActions borrow={borrow} isPending={isPending} handleApprove={handleApprove} handleDelete={handleDelete} />}
+                {currentUser.role === "ADMIN" && <FormItemActions borrow={borrow} isPending={isPending} handleApprove={handleApprove} handleDelete={handleDelete}
+                  handleReturn={handleReturn}
+                />}
               </TableRow>
             )
           }

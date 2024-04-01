@@ -50,13 +50,13 @@ export default function FormGood({ onClose,
   })
 
   const onSubmit = (data: z.infer<typeof goodSchema>) => {
+    if (form.formState.isDirty === false) return toast.error("Data tidak ada yang berubah")
+
     startTransition(() => {
       const actualData = {
         id,
         ...data,
       }
-
-
       updateGood(id, actualData)
         .then(() => {
           toast.success("Barang berhasil Diubah")
@@ -69,6 +69,8 @@ export default function FormGood({ onClose,
         })
     })
   }
+
+
 
   return (
     <Form {...form}>
@@ -100,16 +102,29 @@ export default function FormGood({ onClose,
               >
                 <X />
               </Button>
+
             </div>
+
           </>
         )}
         {!form.watch("imageUrl") && (
-          <ImageUpload
-            setImage={form.setValue}
-          />
+          <>
+            <ImageUpload
+              setImage={form.setValue}
+            />
+            {
+              form.formState.errors.imageUrl && (
+                <p className="text-destructive text-sm text-center">
+                  {form.formState.errors.imageUrl.message}
+                </p>
+              )
+            }
+          </>
+
         )}
         <Button type="submit"
-          disabled={isPending}
+          disabled={isPending
+          }
         >Submit</Button>
       </form>
     </Form>
