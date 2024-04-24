@@ -22,6 +22,7 @@ import { distanceToNow, formatDate } from "@/utils/formateDate"
 import { BorrowsRelation } from "@/types/borrow"
 import FormItemActions from "./FormItemActions"
 import { User } from "@prisma/client"
+import { cn } from "@/lib/utils"
 
 interface ItemProps {
   borrows: BorrowsRelation[]
@@ -36,6 +37,18 @@ const Item = (
   const tableHeadUser = [...tableHeadBase, "Approved", "Returned", "Reason"]
   const tableHeadAdmin = [...tableHeadBase, "User", "Approved", "Returned", "Reason", "Delete",]
   const tableHeads = currentUser.role === "ADMIN" ? tableHeadAdmin : tableHeadUser
+
+  const sortedItems = borrows.sort((a, b) => {
+    if (a.limitDate < new Date() && b.limitDate >= new Date()) {
+      return 1;
+    } else if (a.limitDate >= new Date() && b.limitDate < new Date()) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+
+
   return borrows.length > 0 ? (
     (
 
@@ -50,7 +63,7 @@ const Item = (
         </TableHeader>
 
         <TableBody>
-          {borrows.map((borrow) => {
+          {sortedItems.map((borrow) => {
             const handleApprove = () => {
               if (borrow.isReturned) {
                 toast.error("Borrow is Already Returned")
@@ -101,7 +114,13 @@ const Item = (
               })
             }
             return borrow.item.map((item) =>
-              <TableRow key={item.id}>
+              <TableRow key={item.id} className={cn(
+                borrow.limitDate < new Date() && "bg-red-100/90",
+                borrow.approved && !borrow.isReturned && "bg-yellow-100/90",
+                borrow.approved && borrow.isReturned && "bg-green-100/90",
+                borrow.limitDate < new Date() && !borrow.isReturned && "bg-red-100/90",
+                'transition-all duration-300'
+              )}>
                 <TableCell>{item.good.name}</TableCell>
                 <TableCell>
                   <Image
