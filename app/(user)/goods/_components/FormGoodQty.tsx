@@ -50,7 +50,6 @@ export default function FormGood({ onClose,
   })
 
   const onSubmit = (data: z.infer<typeof goodSchema>) => {
-    if (form.formState.isDirty === false) return toast.error("Data tidak ada yang berubah")
 
     startTransition(() => {
       const actualData = {
@@ -76,7 +75,6 @@ export default function FormGood({ onClose,
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}
         className="bg-white border w-full h-full p-12 rounded-2xl mx-auto space-y-8"
-
       >
         <FormInput
           control={form.control}
