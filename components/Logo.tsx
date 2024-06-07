@@ -1,6 +1,6 @@
 import { Poppins } from "next/font/google";
-import ImageLogo from "./ImageLogo";
 import { cn } from "@/lib/utils";
+import ImageLogo from "./ImageLogo";
 
 export const Logo = () => {
   return (

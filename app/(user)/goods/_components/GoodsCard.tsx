@@ -31,7 +31,7 @@ const GoodsCard = ({ goods, isUserHasBorrowedItem }: GoodsCardProps) => {
       <div className=" space-y-8">
         <div className="fl-ic justify-between">
           <Heading>Goods</Heading>
-          <SearchGoods placeholder="Search Goods" />
+          {/* <SearchGoods placeholder="Search Goods" /> */}
         </div>
         <div className="grid grid-cols-3 justify-around">
           {goods.map((good) => {

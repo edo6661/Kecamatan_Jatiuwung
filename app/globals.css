@@ -82,4 +82,7 @@
   .base-container {
     @apply container space-y-8 py-8
   }
+  .hero-responsive {
+    @apply flex items-center lg:flex-row flex-col;
+  }
 }
