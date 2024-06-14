@@ -21,7 +21,7 @@ const Tentang = () => {
       />
       <div className="space-y-4 max-w-2xl mx-auto">
         <Heading size="md">
-          Tentang E-Surat :
+          Tentang Peminjaman :
         </Heading>
         <div className=" space-y-2">
           {tentangItems.map((item) =>

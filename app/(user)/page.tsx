@@ -12,7 +12,6 @@ export default function Home() {
     <>
       <Hero />
       <Tentang />
-      <Layanan />
       <section id="struktur" className="py-4 container">
         <Image
           src="/struktur.png"

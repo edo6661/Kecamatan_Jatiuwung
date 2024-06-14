@@ -21,7 +21,7 @@ const Hero = () => {
         />
         <div className=" ">
           <Heading className="lg:text-7xl text-5xl">
-            E-Surat
+            Peminjaman Barang
           </Heading>
           <p className="lg:text-4xl text-2xl">
             Kecamatan Jatiuwung Kota Tangerang
