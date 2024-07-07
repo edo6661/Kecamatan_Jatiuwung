@@ -29,7 +29,7 @@ import { addBorrow } from "@/actions/borrow"
 
 const FormSchema = z.object({
   limitDate: z.date({
-    required_error: "A date of birth is required.",
+    required_error: "A borrow Time is required.",
   }),
 })
 
@@ -80,7 +80,7 @@ export default function FormBorrow({ onClose,
           name="limitDate"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Date of birth</FormLabel>
+              <FormLabel>Borrow Time</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -112,9 +112,7 @@ export default function FormBorrow({ onClose,
                   />
                 </PopoverContent>
               </Popover>
-              <FormDescription>
-                Borrow Time
-              </FormDescription>
+
               <FormMessage />
             </FormItem>
           )}

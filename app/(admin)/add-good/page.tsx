@@ -53,7 +53,7 @@ export default function AddGood() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-xl mx-auto">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-xl mx-auto mt-6">
         <FormInput
           control={form.control}
           label="Name"

@@ -37,7 +37,7 @@ export default async function GoodsPage({ searchParams }: GoodsPageProps) {
 
   return (
     <>
-      <section className="base-container  ">
+      <section className="base-container space-y-12  ">
         {currentUser.role === "USER" ? (
           <GoodsCard goods={goods} isUserHasBorrowedItem={userHasBorrowedItem!} />
         ) : <GoodsAdmin

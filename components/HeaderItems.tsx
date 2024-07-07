@@ -14,10 +14,6 @@ const HeaderItems = () => {
       href: "#tentang",
     },
     {
-      name: "Layanan",
-      href: "#layanan",
-    },
-    {
       name: "Struktur Organisasi",
       href: "#struktur",
     },

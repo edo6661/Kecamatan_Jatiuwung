@@ -81,18 +81,23 @@ export default function GoodActions({ setBorrowGoods, id, qty, submitted, setSub
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="fl-ic gap-4">
-          <FormCheckbox
-            control={form.control}
-            name="selected"
-          />
-          <FormInput
-            control={form.control}
-            name="qty"
-            placeholder="Enter quantity"
-            type="number"
-            max={qty}
-          />
+        <div className="fl-ic justify-between">
+          <div className="fl-ic gap-4">
+            <FormCheckbox
+              control={form.control}
+              name="selected"
+            />
+            <FormInput
+              control={form.control}
+              name="qty"
+              placeholder="Enter quantity"
+              type="number"
+              max={qty}
+            />
+          </div>
+          <p>
+            {qty}
+          </p>
         </div>
       </form>
     </Form>
