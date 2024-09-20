@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Logo } from "./_components/logo";
 
 export const metadata: Metadata = {
-  title: "Auth MugiChan",
-  description: "Auth Page Mugichawn",
+  title: "Auth Peminjaman barang",
+  description: "Auth Page Peminjaman barang",
 };
 
 export default function AuthLayout({
