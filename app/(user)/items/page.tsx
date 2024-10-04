@@ -22,10 +22,7 @@ const ItemsPage = async () => {
   const userNotApprovedBorrows = userAllBorrows.filter((borrow) => borrow.approved === false)
   const userReturnedBorrows = userAllBorrows.filter((borrow) => borrow.isReturned === true)
   const userNotReturnedBorrows = userAllBorrows.filter((borrow) => borrow.isReturned === false)
-  // const userApprovedBorrows = await getAllBorrowedUserApproved() 
-  // const userNotApprovedBorrows = await getAllBorrowedUserNotApproved()
-  // const userReturnedBorrows = await getAllBorrowedUserReturned()
-  // const userNotReturnedBorrows = await getAllBorrowedUserNotReturned()
+
 
 
   return (

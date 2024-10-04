@@ -20,7 +20,6 @@ interface User {
   externalUserId: string;
   role: string;
   profilePhoto: string;
-  // Definisikan properti-properit lainnya sesuai kebutuhan
 }
 
 interface Borrow {
@@ -39,3 +38,5 @@ export interface BorrowsRelation extends Borrow {
   user: User;
   item: Item[];
 }
+
+export type FuckTypescript = any

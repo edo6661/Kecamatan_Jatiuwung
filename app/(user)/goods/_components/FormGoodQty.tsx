@@ -45,7 +45,7 @@ export default function FormGood({ onClose,
     defaultValues: {
       qty: qty.toString(),
       name: name,
-      imageUrl,
+      ...(imageUrl && { imageUrl: imageUrl }),
     }
   })
 

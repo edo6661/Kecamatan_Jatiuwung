@@ -11,20 +11,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { BorrowsRelation } from '@/types/borrow'
+import { BorrowsRelation, FuckTypescript } from '@/types/borrow'
 import { User } from '@prisma/client'
 
 interface ItemsProps {
-  allBorrows: BorrowsRelation[];
-  approvedBorrows: BorrowsRelation[];
-  notApprovedBorrows: BorrowsRelation[];
-  returnedBorrows: BorrowsRelation[];
-  notReturnedBorrows: BorrowsRelation[];
-  userAllBorrows: BorrowsRelation[];
-  userApprovedBorrows: BorrowsRelation[];
-  userNotApprovedBorrows: BorrowsRelation[];
-  userReturnedBorrows: BorrowsRelation[];
-  userNotReturnedBorrows: BorrowsRelation[];
+  allBorrows: FuckTypescript[];
+  approvedBorrows: FuckTypescript[];
+  notApprovedBorrows: FuckTypescript[];
+  returnedBorrows: FuckTypescript[];
+  notReturnedBorrows: FuckTypescript[];
+  userAllBorrows: FuckTypescript[];
+  userApprovedBorrows: FuckTypescript[];
+  userNotApprovedBorrows: FuckTypescript[];
+  userReturnedBorrows: FuckTypescript[];
+  userNotReturnedBorrows: FuckTypescript[];
 
   currentUser: User
 }
