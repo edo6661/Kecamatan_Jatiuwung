@@ -6,9 +6,13 @@ import Image from "next/image";
 import { Heading } from "./custom-ui/heading";
 import HeaderItems from "./HeaderItems";
 import NavOption from "./NavOption";
+import { getAllBorrowed, getCountAllBorrowedThatExpired } from "@/services/borrow";
 
 const Header = async () => {
   const user = await getCurrentUser();
+  const notExpiredBorrow = await getCountAllBorrowedThatExpired();
+
+  console.log(notExpiredBorrow)
 
   return (
     <>
@@ -32,6 +36,7 @@ const Header = async () => {
             <div className="fl-ic gap-4">
               <NavOption
                 role={user?.role!}
+                notExpiredBorrow={notExpiredBorrow}
               />
               <UserButton afterSignOutUrl="/" />
             </div>

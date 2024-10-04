@@ -13,9 +13,10 @@ import Link from "next/link"
 import { Button } from "./ui/button"
 interface NavOptionProps {
   role: Role;
+  notExpiredBorrow: number;
 }
 const NavOption = (
-  { role }: NavOptionProps
+  { role, notExpiredBorrow }: NavOptionProps
 ) => {
   return (
     <DropdownMenu>
@@ -40,9 +41,22 @@ const NavOption = (
             <Link href="/goods">Goods</Link>
           </SignedIn>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem className="relative">
           <SignedIn>
-            <Link href="/items">Items</Link>
+            <Link href="/items" className="relative">
+              <span>
+                Items
+              </span>
+              {role === "ADMIN" && (
+                <div className="absolute -right-6 -top-1 w-5 h-5 rounded-full bg-red-500 items-center justify-center flex ">
+                  <span className=" text-xs text-white ">
+                    {notExpiredBorrow ?? 0}
+                  </span>
+
+                </div>
+              )}
+            </Link>
+
           </SignedIn>
         </DropdownMenuItem>
       </DropdownMenuContent>

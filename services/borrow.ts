@@ -266,3 +266,26 @@ export const getAllBorrowedUserNotReturned = async () => {
     throw(err);
   }
 }
+
+export const getCountAllBorrowedThatExpired = async () => {
+  try {
+    return await db.borrow.findMany({
+      where: {
+        isReturned: false,
+        limitDate: {
+          lte: new Date(),
+        },
+      },
+      include : {
+        item:  {
+          include:{
+            good:true
+          }
+        }
+      }
+    }).then((res) => res.length)
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
