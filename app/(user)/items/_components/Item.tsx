@@ -23,6 +23,7 @@ import { BorrowsRelation } from "@/types/borrow"
 import FormItemActions from "./FormItemActions"
 import { User } from "@prisma/client"
 import { cn } from "@/lib/utils"
+import DialogKtp from "../../goods/_components/DialogKtp"
 
 interface ItemProps {
   borrows: BorrowsRelation[]
@@ -133,15 +134,11 @@ const Item = (
                 </TableCell>
                 <TableCell>{item.qty}</TableCell>
                 <TableCell>{formatDate(borrow.limitDate)}</TableCell>
-                <TableCell>
+                <TableCell
+
+                >
                   {borrow.imageUrl ? (
-                    <Image
-                      src={borrow.imageUrl}
-                      alt={borrow.user.username}
-                      width={50}
-                      height={50}
-                      className="aspect-square rounded-full"
-                    />
+                    <DialogKtp imageUrl={borrow.imageUrl} />
                   ) : (
                     "No KTP"
                   )}
