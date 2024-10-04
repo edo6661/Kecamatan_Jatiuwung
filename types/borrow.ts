@@ -25,6 +25,7 @@ interface User {
 
 interface Borrow {
   approved: boolean;
+  imageUrl?: string;
   id: string;
   isReturned: boolean;
   item: Item[];

@@ -12,7 +12,6 @@ const Header = async () => {
   const user = await getCurrentUser();
   const notExpiredBorrow = await getCountAllBorrowedThatExpired();
 
-  console.log(notExpiredBorrow)
 
   return (
     <>

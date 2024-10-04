@@ -7,6 +7,7 @@ import { X } from 'lucide-react'
 import React from 'react'
 import DialogItemReason from './DialogItemReason'
 import AlertDialog from '@/components/custom-ui/AlertDialog'
+import Image from 'next/image'
 interface FormItemActionsProps {
   borrow: BorrowsRelation;
   isPending: boolean;

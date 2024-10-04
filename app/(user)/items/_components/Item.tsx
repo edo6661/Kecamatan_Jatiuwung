@@ -33,7 +33,7 @@ const Item = (
 ) => {
   const [isPending, startTransition] = useTransition()
 
-  const tableHeadBase = ["Name", "Image", "Quantity", "Limit",]
+  const tableHeadBase = ["Name", "Image", "Quantity", "Limit", "KTP"]
   const tableHeadUser = [...tableHeadBase, "Approved", "Returned", "Reason"]
   const tableHeadAdmin = [...tableHeadBase, "User", "Approved", "Returned", "Reason", "Delete",]
   const tableHeads = currentUser.role === "ADMIN" ? tableHeadAdmin : tableHeadUser
@@ -133,6 +133,19 @@ const Item = (
                 </TableCell>
                 <TableCell>{item.qty}</TableCell>
                 <TableCell>{formatDate(borrow.limitDate)}</TableCell>
+                <TableCell>
+                  {borrow.imageUrl ? (
+                    <Image
+                      src={borrow.imageUrl}
+                      alt={borrow.user.username}
+                      width={50}
+                      height={50}
+                      className="aspect-square rounded-full"
+                    />
+                  ) : (
+                    "No KTP"
+                  )}
+                </TableCell>
                 {currentUser.role === "USER" &&
                   <>
                     <TableCell>
@@ -159,6 +172,7 @@ const Item = (
                 {currentUser.role === "ADMIN" && <FormItemActions borrow={borrow} isPending={isPending} handleApprove={handleApprove} handleDelete={handleDelete}
                   handleReturn={handleReturn}
                 />}
+
               </TableRow>
             )
           }

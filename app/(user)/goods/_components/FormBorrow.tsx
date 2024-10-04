@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, X } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -26,11 +26,14 @@ import {
 import { toast } from "sonner"
 import { useTransition } from "react"
 import { addBorrow } from "@/actions/borrow"
+import ImageUpload from "@/components/custom-ui/ImageUploader"
+import Image from "next/image"
 
 const FormSchema = z.object({
   limitDate: z.date({
     required_error: "A borrow Time is required.",
   }),
+  imageUrl: z.string().optional()
 })
 
 interface FormBorrowProps {
@@ -51,16 +54,14 @@ export default function FormBorrow({ onClose,
     startTransition(() => {
       const actualData = {
         borrowGoods,
-        limitDate: data.limitDate
+        limitDate: data.limitDate,
+        imageUrl: data.imageUrl
       }
-
-
       addBorrow(actualData)
         .then(() => {
           onSubmitted()
           toast.success("Barang berhasil dipinjam")
           onClose()
-
         })
         .catch((err) => {
           console.error(err)
@@ -68,6 +69,8 @@ export default function FormBorrow({ onClose,
         })
     })
   }
+
+  const { setValue, watch } = form
 
   return (
     <Form {...form}>
@@ -117,6 +120,27 @@ export default function FormBorrow({ onClose,
             </FormItem>
           )}
         />
+        {watch("imageUrl") && (
+          <>
+            <div className="flex justify-center gap-4">
+              <Image src={watch("imageUrl")!} width={300} height={300} alt="Preview" />
+              <Button
+                onClick={() => setValue("imageUrl", "")}
+              >
+                <X />
+              </Button>
+            </div>
+          </>
+        )}
+        {!watch("imageUrl") && (
+          <div>
+            <FormLabel>Ktp</FormLabel>
+            <ImageUpload
+              setImage={setValue}
+            />
+          </div>
+        )}
+
         <Button type="submit"
           disabled={isPending}
         >Submit</Button>

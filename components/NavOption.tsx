@@ -47,7 +47,7 @@ const NavOption = (
               <span>
                 Items
               </span>
-              {role === "ADMIN" && (
+              {role === "ADMIN" && notExpiredBorrow !== 0 && (
                 <div className="absolute -right-6 -top-1 w-5 h-5 rounded-full bg-red-500 items-center justify-center flex ">
                   <span className=" text-xs text-white ">
                     {notExpiredBorrow ?? 0}
@@ -56,7 +56,6 @@ const NavOption = (
                 </div>
               )}
             </Link>
-
           </SignedIn>
         </DropdownMenuItem>
       </DropdownMenuContent>

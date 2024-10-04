@@ -11,6 +11,7 @@ interface Borrow {
     qty: number;
   }[]
   limitDate: Date;
+  imageUrl?: string;
 }
 
 export const addBorrow = async (data: Borrow  ) => {  
@@ -24,7 +25,7 @@ export const addBorrow = async (data: Borrow  ) => {
       {
         return {
           goodId: data.goodId,
-          qty: data.qty
+          qty: data.qty,
         }
       }
     )
@@ -42,13 +43,14 @@ export const addBorrow = async (data: Borrow  ) => {
       })
     )
    
-    const newBorrow= await db.borrow.create({
+    const newBorrow = await db.borrow.create({
       data:{
         userId: currentUser?.id!,
         item: {
           create: item
         },
-       limitDate: data.limitDate
+       limitDate: data.limitDate,
+       imageUrl: data.imageUrl
       },
       include:{
         item:true

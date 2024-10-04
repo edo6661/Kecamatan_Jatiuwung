@@ -38,6 +38,7 @@ model Borrow {
   id    String @id @default(uuid())
   approved Boolean @default(false)
   reason String?
+  imageUrl String?
   userId String
   user User @relation(fields: [userId], references: [id])
   item Item[]
