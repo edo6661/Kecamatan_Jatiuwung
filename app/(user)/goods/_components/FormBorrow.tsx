@@ -33,7 +33,9 @@ const FormSchema = z.object({
   limitDate: z.date({
     required_error: "A borrow Time is required.",
   }),
-  imageUrl: z.string().optional()
+  imageUrl: z.string().min(1, {
+    message: "Ktp is required",
+  })
 })
 
 interface FormBorrowProps {
@@ -142,7 +144,10 @@ export default function FormBorrow({ onClose,
         )}
 
         <Button type="submit"
-          disabled={isPending}
+          disabled={isPending ||
+            !watch("limitDate") ||
+            !watch("imageUrl")
+          }
         >Submit</Button>
       </form>
     </Form>
